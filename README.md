@@ -1,5 +1,7 @@
 # README
 
+[_forked by Foundry 2015-09-29 to add a suggested fix for the [cancel animation flash bug](https://github.com/MrAlek/AWPercentDrivenInteractiveTransition/issues/3)_]  
+
 This is the code repository accompanying the [Interactive Custom Container View Controller Transitions](http://www.iosnomad.com/blog/2014/5/12/interactive-custom-container-view-controller-transitions) blog post at [iOS Nomad](http://www.iosnomad.com).
 
 The work is a continuation on the [Custom Container View Controller Transitions](http://www.objc.io/issue-12/custom-container-view-controller-transitions.html) article and code by [Joachim Bondo](https://github.com/osteslag), [issue #12](http://www.objc.io/issue-12) of the [objc.io publication](http://www.objc.io).
