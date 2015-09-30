@@ -62,6 +62,7 @@
     return [_animator transitionDuration:_transitionContext];
 }
 - (void)startInteractiveTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
+    NSAssert(_animator, @"The animator property must be set at the start of an interactive transition");
     
     _transitionContext = transitionContext;
     [_transitionContext containerView].layer.speed = 0;
@@ -72,29 +73,29 @@
     self.percentComplete = fmaxf(fminf(percentComplete, 1), 0); // Input validation
 }
 - (void)cancelInteractiveTransition {
-    
-    _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(_tickCancelAnimation)];
-    [_displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
-    
     [_transitionContext cancelInteractiveTransition];
+    [self _completeTransition];
 }
 - (void)finishInteractiveTransition {
-    CALayer *layer = [_transitionContext containerView].layer;
     
-    layer.speed = [self completionSpeed];
-    
-    CFTimeInterval pausedTime = [layer timeOffset];
-    layer.timeOffset = 0.0;
-    layer.beginTime = 0.0;
-    CFTimeInterval timeSincePause = [layer convertTime:CACurrentMediaTime() fromLayer:nil] - pausedTime;
-    layer.beginTime = timeSincePause;
+    /*CALayer *layer = [_transitionContext containerView].layer;
+     layer.speed = 1;
+     
+     CFTimeInterval pausedTime = [layer timeOffset];
+     layer.timeOffset = 0.0;
+     layer.beginTime = 0.0; // Need to reset to 0 to avoid flickering :S
+     CFTimeInterval timeSincePause = [layer convertTime:CACurrentMediaTime() fromLayer:nil] - pausedTime;
+     layer.beginTime = timeSincePause;*/
     
     [_transitionContext finishInteractiveTransition];
+    [self _completeTransition];
+}
+- (UIViewAnimationCurve)completionCurve {
+    return UIViewAnimationCurveLinear;
 }
 
 #pragma mark - Private methods
 - (void)setPercentComplete:(CGFloat)percentComplete {
-    
     _percentComplete = percentComplete;
     
     [self _setTimeOffset:percentComplete*[self duration]];
@@ -103,10 +104,18 @@
 - (void)_setTimeOffset:(NSTimeInterval)timeOffset {
     [_transitionContext containerView].layer.timeOffset = timeOffset;
 }
-- (void)_tickCancelAnimation {
-    NSTimeInterval timeOffset = [self _timeOffset]-[_displayLink duration];
-    if (timeOffset < 0) {
-        [self _transitionFinishedCanceling];
+- (void)_completeTransition {
+    _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(_tickAnimation)];
+    [_displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+}
+- (void)_tickAnimation {
+    
+    NSTimeInterval timeOffset = [self _timeOffset];
+    NSTimeInterval tick = [_displayLink duration]*[self completionSpeed];
+    timeOffset += [_transitionContext transitionWasCancelled] ? -tick : tick;
+    
+    if (timeOffset < 0 || timeOffset > [self duration]) {
+        [self _transitionFinished];
     } else {
         [self _setTimeOffset:timeOffset];
     }
@@ -114,11 +123,27 @@
 - (CFTimeInterval)_timeOffset {
     return [_transitionContext containerView].layer.timeOffset;
 }
-- (void)_transitionFinishedCanceling {
+- (void)_transitionFinished {
     [_displayLink invalidate];
     
     CALayer *layer = [_transitionContext containerView].layer;
     layer.speed = 1;
+    
+    if (![_transitionContext transitionWasCancelled]) {
+        CFTimeInterval pausedTime = [layer timeOffset];
+        layer.timeOffset = 0.0;
+        layer.beginTime = 0.0; // Need to reset to 0 to avoid flickering :S
+        CFTimeInterval timeSincePause = [layer convertTime:CACurrentMediaTime() fromLayer:nil] - pausedTime;
+        layer.beginTime = timeSincePause;
+    } else {
+        SEL selector = NSSelectorFromString(@"snapshotView");
+        if ([_transitionContext respondsToSelector:selector]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+            [[_transitionContext performSelector:selector] setAlpha:1.0];
+#pragma clang diagnostic pop
+        }
+    }
 }
 
 @end

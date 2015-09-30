@@ -9,6 +9,8 @@
 
 #import "ContainerViewController.h"
 #import "PanGestureInteractiveTransition.h"
+#import "PrivateTransitionContext.h"
+#import "PrivateTransitionAnimator.h"
 
 static CGFloat const kButtonSlotWidth = 64; // Also distance between button centers
 static CGFloat const kButtonSlotHeight = 44;
@@ -17,16 +19,19 @@ static CGFloat const kButtonSlotHeight = 44;
  @discussion Because we are a custom UIVievController class, with our own containment implementation, we have to provide an object conforming to the UIViewControllerContextTransitioning protocol. The system view controllers use one provided by the framework, which we cannot configure, let alone create. This class will be used even if the developer provides their own transitioning objects.
  @note The only methods that will be called on objects of this class are the ones defined in the UIViewControllerContextTransitioning protocol. The rest is our own private implementation.
  */
+/*
 @interface PrivateTransitionContext : NSObject <UIViewControllerContextTransitioning>
 - (instancetype)initWithFromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController goingRight:(BOOL)goingRight; /// Designated initializer.
 @property (nonatomic, copy) void (^completionBlock)(BOOL didComplete); /// A block of code we can set to execute after having received the completeTransition: message.
 @property (nonatomic, assign, getter=isAnimated) BOOL animated; /// Private setter for the animated property.
 @property (nonatomic, assign, getter=isInteractive) BOOL interactive; /// Private setter for the interactive property.
 @end
-
+*/
 /// Instances of this private class perform the default transition animation which is to slide child views horizontally.
+/*
 @interface PrivateAnimatedTransition : NSObject <UIViewControllerAnimatedTransitioning>
 @end
+ */
 
 #pragma mark -
 
@@ -189,7 +194,7 @@ static CGFloat const kButtonSlotHeight = 44;
 		animator = [self.delegate containerViewController:self animationControllerForTransitionFromViewController:fromViewController toViewController:toViewController];
 	}
     BOOL animatorIsDefault = (animator == nil);
-	animator = (animator ?: [[PrivateAnimatedTransition alloc] init]);
+	animator = (animator ?: [[PrivateTransitionAnimator alloc] init]);
 	
 	// Because of the nature of our view controller, with horizontally arranged buttons, we instantiate our private transition context with information about whether this is a left-to-right or right-to-left transition. The animator can use this information if it wants.
 	NSUInteger fromIndex = [self.viewControllers indexOfObject:fromViewController];
@@ -248,6 +253,7 @@ static CGFloat const kButtonSlotHeight = 44;
 
 @end
 
+/*
 #pragma mark - Private Transitioning Classes
 
 @interface PrivateTransitionContext ()
@@ -316,7 +322,9 @@ static CGFloat const kButtonSlotHeight = 44;
 - (void)cancelInteractiveTransition {self.transitionWasCancelled = YES;}
 
 @end
+*/
 
+/*
 @implementation PrivateAnimatedTransition
 
 static CGFloat const kChildViewPadding = 16;
@@ -356,3 +364,4 @@ static CGFloat const kInitialSpringVelocity = 0.5;
 }
 
 @end
+*/

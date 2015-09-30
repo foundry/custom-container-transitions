@@ -24,7 +24,6 @@
 // THE SOFTWARE.
 //
 
-
 #import <UIKit/UIKit.h>
 
 /**
@@ -46,9 +45,8 @@
  */
 @property (nonatomic, weak) id<UIViewControllerAnimatedTransitioning>animator;
 
-@property (nonatomic, readonly) CGFloat completionSpeed; // Only works for completionSpeed = 1
-// Not yet implemented
-// @property (nonatomic, assign) UIViewAnimationCurve animationCurve;
+@property (nonatomic) CGFloat completionSpeed; // Defaults to 1
+@property (nonatomic, readonly) UIViewAnimationCurve animationCurve; // Unused, returns UIViewAnimationCurveLinear
 
 - (void)updateInteractiveTransition:(CGFloat)percentComplete;
 - (void)cancelInteractiveTransition;

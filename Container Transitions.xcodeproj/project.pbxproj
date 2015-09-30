@@ -18,6 +18,8 @@
 		29D3A71C191054E400038CEC /* Animator.m in Sources */ = {isa = PBXBuildFile; fileRef = 29D3A71B191054E400038CEC /* Animator.m */; };
 		93860E311920091600F6B7FA /* PanGestureInteractiveTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 93860E301920091600F6B7FA /* PanGestureInteractiveTransition.m */; };
 		93F0979419201A12007B86C0 /* AWPercentDrivenInteractiveTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F0979319201A12007B86C0 /* AWPercentDrivenInteractiveTransition.m */; };
+		AB3431A81BBC20A70031285D /* PrivateTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3431A51BBC20A70031285D /* PrivateTransitionAnimator.m */; settings = {ASSET_TAGS = (); }; };
+		AB3431A91BBC20A70031285D /* PrivateTransitionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3431A71BBC20A70031285D /* PrivateTransitionContext.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,10 @@
 		93860E301920091600F6B7FA /* PanGestureInteractiveTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PanGestureInteractiveTransition.m; sourceTree = "<group>"; };
 		93F0979219201A12007B86C0 /* AWPercentDrivenInteractiveTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWPercentDrivenInteractiveTransition.h; sourceTree = "<group>"; };
 		93F0979319201A12007B86C0 /* AWPercentDrivenInteractiveTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWPercentDrivenInteractiveTransition.m; sourceTree = "<group>"; };
+		AB3431A41BBC20A70031285D /* PrivateTransitionAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateTransitionAnimator.h; sourceTree = "<group>"; };
+		AB3431A51BBC20A70031285D /* PrivateTransitionAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrivateTransitionAnimator.m; sourceTree = "<group>"; };
+		AB3431A61BBC20A70031285D /* PrivateTransitionContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateTransitionContext.h; sourceTree = "<group>"; };
+		AB3431A71BBC20A70031285D /* PrivateTransitionContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrivateTransitionContext.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +95,10 @@
 		29D3A6E8190C44CC00038CEC /* Container Transitions */ = {
 			isa = PBXGroup;
 			children = (
+				AB3431A41BBC20A70031285D /* PrivateTransitionAnimator.h */,
+				AB3431A51BBC20A70031285D /* PrivateTransitionAnimator.m */,
+				AB3431A61BBC20A70031285D /* PrivateTransitionContext.h */,
+				AB3431A71BBC20A70031285D /* PrivateTransitionContext.m */,
 				29D3A6F1190C44CC00038CEC /* AppDelegate.h */,
 				29D3A6F2190C44CC00038CEC /* AppDelegate.m */,
 				29D3A714190C5EC100038CEC /* ContainerViewController.h */,
@@ -144,7 +154,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = DG;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0700;
 			};
 			buildConfigurationList = 29D3A6DA190C44CC00038CEC /* Build configuration list for PBXProject "Container Transitions" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -182,10 +192,12 @@
 				29D3A71C191054E400038CEC /* Animator.m in Sources */,
 				93F0979419201A12007B86C0 /* AWPercentDrivenInteractiveTransition.m in Sources */,
 				29D3A6EF190C44CC00038CEC /* main.m in Sources */,
+				AB3431A91BBC20A70031285D /* PrivateTransitionContext.m in Sources */,
 				29D3A6F3190C44CC00038CEC /* AppDelegate.m in Sources */,
 				29D3A716190C5EC100038CEC /* ContainerViewController.m in Sources */,
 				29D3A713190C4AA800038CEC /* ChildViewController.m in Sources */,
 				93860E311920091600F6B7FA /* PanGestureInteractiveTransition.m in Sources */,
+				AB3431A81BBC20A70031285D /* PrivateTransitionAnimator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,6 +222,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -272,6 +285,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Container Transitions/Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Container Transitions/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.bondo.container-transitions";
 				PRODUCT_NAME = Transitions;
 				WRAPPER_EXTENSION = app;
 			};
@@ -285,6 +299,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Container Transitions/Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Container Transitions/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.bondo.container-transitions";
 				PRODUCT_NAME = Transitions;
 				WRAPPER_EXTENSION = app;
 			};
